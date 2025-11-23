@@ -1,5 +1,4 @@
 import { GraphQLEnumType } from 'graphql';
-import { GraphQLContext } from '../context.js';
 
 export enum MemberId {
   BASIC = 'BASIC',
@@ -7,7 +6,7 @@ export enum MemberId {
 }
 
 export const MemberTypeId = new GraphQLEnumType({
-  name: 'MemberId',
+  name: 'MemberTypeId',
   values: {
     BASIC: { value: 'BASIC' },
     BUSINESS: { value: 'BUSINESS' },
