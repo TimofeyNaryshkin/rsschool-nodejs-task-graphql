@@ -5,7 +5,14 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 import { UUIDType } from '../types/uuid.js';
-import { MemberTypeId } from '../enums/memberId.js';
+import { MemberId, MemberTypeId } from '../enums/memberId.js';
+
+export interface CreateProfile {
+  isMale: boolean
+  yearOfBirth: number
+  userId: string
+  memberTypeId: MemberId
+}
 
 export const CreateProfileInput = new GraphQLInputObjectType({
   name: 'CreateProfileInput',

@@ -5,6 +5,11 @@ import {
   GraphQLString,
 } from 'graphql';
 
+export interface CreateUser {
+  name: string,
+  balance: number
+}
+
 export const CreateUserInput = new GraphQLInputObjectType({
   name: 'CreateUserInput',
   fields: () => ({
