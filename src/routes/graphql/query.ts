@@ -5,15 +5,15 @@ import { UserType } from './types/user.js';
 import { UUIDType } from './types/uuid.js';
 import { PostType } from './types/post.js';
 import { ProfileType } from './types/profile.js';
-import { PrismaClient } from '@prisma/client';
 import { GetById } from '../../types/utility.js';
+import { GraphQLContext } from './context.js';
 
-export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
+export const QueryType = new GraphQLObjectType<unknown, GraphQLContext>({
   name: 'Query',
   fields: () => ({
     memberTypes: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(MemberType))),
-      resolve: (_parent, _args, prisma) => {
+      resolve: (_parent, _args, { prisma }) => {
         return prisma.memberType.findMany();
       },
     },
@@ -22,7 +22,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
       args: {
         id: { type: new GraphQLNonNull(MemberTypeId) },
       },
-      resolve: (_parent, args: GetById, prisma) => {
+      resolve: (_parent, args: GetById, { prisma }) => {
         return prisma.memberType.findUnique({
           where: {
             id: args.id,
@@ -32,7 +32,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
     },
     users: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(UserType))),
-      resolve: (_parent, _args, prisma) => {
+      resolve: (_parent, _args, { prisma }) => {
         return prisma.user.findMany();
       },
     },
@@ -41,7 +41,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
       },
-      resolve: (_parent, args: GetById, prisma) => {
+      resolve: (_parent, args: GetById, { prisma }) => {
         return prisma.user.findUnique({
           where: {
             id: args.id,
@@ -51,7 +51,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
     },
     posts: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(PostType))),
-      resolve: (_parent, _args, prisma) => {
+      resolve: (_parent, _args, { prisma }) => {
         return prisma.post.findMany();
       },
     },
@@ -60,7 +60,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
       },
-      resolve: (_parent, args: GetById, prisma) => {
+      resolve: (_parent, args: GetById, { prisma }) => {
         return prisma.post.findUnique({
           where: {
             id: args.id,
@@ -70,7 +70,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
     },
     profiles: {
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ProfileType))),
-      resolve: (_parent, _args, prisma) => {
+      resolve: (_parent, _args, { prisma }) => {
         return prisma.profile.findMany();
       },
     },
@@ -79,7 +79,7 @@ export const QueryType = new GraphQLObjectType<unknown, PrismaClient>({
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
       },
-      resolve: (_parent, args: GetById, prisma) => {
+      resolve: (_parent, args: GetById, { prisma }) => {
         return prisma.profile.findUnique({
           where: {
             id: args.id,

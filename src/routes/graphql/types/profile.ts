@@ -1,23 +1,17 @@
-import {
-  GraphQLBoolean,
-  GraphQLInt,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
+import { GraphQLBoolean, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 import { UUIDType } from './uuid.js';
 import { Member, MemberType } from './member.js';
-import { PrismaClient } from '@prisma/client';
+import { GraphQLContext } from '../context.js';
 
 export interface Profile {
   id: string;
   isMale: boolean;
   yearOfBirth: number;
   memberType: Member;
-  memberTypeId: string; 
+  memberTypeId: string;
 }
 
-export const ProfileType = new GraphQLObjectType<Profile, PrismaClient>({
+export const ProfileType = new GraphQLObjectType<Profile, GraphQLContext>({
   name: 'Profile',
   fields: () => ({
     id: { type: new GraphQLNonNull(UUIDType) },
@@ -25,11 +19,9 @@ export const ProfileType = new GraphQLObjectType<Profile, PrismaClient>({
     yearOfBirth: { type: new GraphQLNonNull(GraphQLInt) },
     memberType: {
       type: new GraphQLNonNull(MemberType),
-      resolve: (profile, _args, prisma) => {
-        return prisma.memberType.findUnique({
-          where: {id: profile.memberTypeId}
-        })
-      }
+      resolve: (profile, _args, { loaders }) => {
+        return loaders.memberType.load(profile.memberTypeId);
+      },
     },
   }),
 });

@@ -1,6 +1,6 @@
 import { GraphQLFloat, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 import { MemberId, MemberTypeId } from '../enums/memberId.js';
-import { PrismaClient } from '@prisma/client';
+import { GraphQLContext } from '../context.js';
 
 export interface Member {
   id: MemberId;
@@ -8,7 +8,7 @@ export interface Member {
   postsLimitPerMonth: number;
 }
 
-export const MemberType = new GraphQLObjectType<Member, PrismaClient>({
+export const MemberType = new GraphQLObjectType<Member, GraphQLContext>({
   name: 'Member',
   fields: () => ({
     id: { type: new GraphQLNonNull(MemberTypeId) },
