@@ -18,15 +18,11 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
     createUser: {
       type: new GraphQLNonNull(UserType),
       args: {
-        input: { type: new GraphQLNonNull(CreateUserInput) },
+        dto: { type: new GraphQLNonNull(CreateUserInput) },
       },
-      resolve: async (_src, args: { input: CreateUser }, prisma) => {
-        const { name, balance } = args.input;
+      resolve: async (_src, args: { dto: CreateUser }, prisma) => {
         const user = await prisma.user.create({
-          data: {
-            name,
-            balance,
-          },
+          data: args.dto,
         });
         return user;
       },
@@ -34,11 +30,11 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
     createProfile: {
       type: new GraphQLNonNull(ProfileType),
       args: {
-        input: { type: new GraphQLNonNull(CreateProfileInput) },
+        dto: { type: new GraphQLNonNull(CreateProfileInput) },
       },
-      resolve: async (_src, args: { input: CreateProfile }, prisma) => {
+      resolve: async (_src, args: { dto: CreateProfile }, prisma) => {
         const profile = await prisma.profile.create({
-          data: args.input,
+          data: args.dto,
         });
         return profile;
       },
@@ -46,11 +42,11 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
     createPost: {
       type: new GraphQLNonNull(PostType),
       args: {
-        input: { type: new GraphQLNonNull(CreatePostInput) },
+        dto: { type: new GraphQLNonNull(CreatePostInput) },
       },
-      resolve: async (_src, args: { input: CreatePost }, prisma) => {
+      resolve: async (_src, args: { dto: CreatePost }, prisma) => {
         const post = await prisma.post.create({
-          data: args.input,
+          data: args.dto,
         });
         return post;
       },
@@ -59,14 +55,14 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
       type: new GraphQLNonNull(PostType),
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
-        input: { type: new GraphQLNonNull(ChangePostInput) },
+        dto: { type: new GraphQLNonNull(ChangePostInput) },
       },
-      resolve: async (_src, args: { id: string; input: ChangePost }, prisma) => {
+      resolve: async (_src, args: { id: string; dto: ChangePost }, prisma) => {
         const newPost = await prisma.post.update({
           where: {
             id: args.id,
           },
-          data: args.input,
+          data: args.dto,
         });
         return newPost;
       },
@@ -75,14 +71,14 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
       type: new GraphQLNonNull(ProfileType),
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
-        input: { type: new GraphQLNonNull(ChangeProfileInput) },
+        dto: { type: new GraphQLNonNull(ChangeProfileInput) },
       },
-      resolve: async (_src, args: { id: string; input: ChangeProfile }, prisma) => {
+      resolve: async (_src, args: { id: string; dto: ChangeProfile }, prisma) => {
         const newProfile = await prisma.profile.update({
           where: {
             id: args.id,
           },
-          data: args.input,
+          data: args.dto,
         });
         return newProfile;
       },
@@ -91,14 +87,14 @@ export const MutationType = new GraphQLObjectType<unknown, PrismaClient>({
       type: new GraphQLNonNull(UserType),
       args: {
         id: { type: new GraphQLNonNull(UUIDType) },
-        input: { type: new GraphQLNonNull(ChangeUserInput) },
+        dto: { type: new GraphQLNonNull(ChangeUserInput) },
       },
-      resolve: async (_src, args: { id: string; input: ChangeUser }, prisma) => {
+      resolve: async (_src, args: { id: string; dto: ChangeUser }, prisma) => {
         const newUser = await prisma.user.update({
           where: {
             id: args.id,
           },
-          data: args.input,
+          data: args.dto,
         });
         return newUser;
       },
